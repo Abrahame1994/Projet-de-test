@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>{{ title }}</h2>
+      <label for="">Désignation</label>
+      <input type="text" name="" id="" v-model="tache" />
+      <button v-on:click="ajouter">Ajouter</button> <br />
+      <br />
+
+      <table border="1px">
+        <thead>
+          <th>#</th>
+          <th>Designation</th>
+          <th>Status</th>
+          <th>Actioin</th>
+        </thead>
+        <tbody>
+          <tr v-for="(t, index) in taches">
+            <td>{{t.id}}</td>
+            <td>{{t.designation}}</td>
+            <td>
+                <span v-if="t.status">Effectuée</span>
+                <span v-else>Non effectuée</span>
+            </td>
+            <td>
+              <button @click="supprimer(index)">Delete</button>
+              <button @click="t.status = ! t.status">Ajouter</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="vue.js"></script>
+    <script>
+      const app = new Vue({
+        el: "#app", //On recupère l'application par son identifiant
+        data() {
+          return {
+            title: "Gestion des taches",
+            taches: [],
+            tache: "",
+          };
+        },
+        //Gestion des evenements
+        methods: {
+          ajouter() {
+            this.taches.push({
+                id: this.taches.length +1,
+                designation: this.tache,
+                status: false
+            }),
+            this.tache= ''
+          },
+          supprimer(param){
+              this.taches.splice(param, 1)
+          },
+          initialize(){
+              this.taches=[
+                  {id: 1, designation: 'Routeur', status: false},
+                  {id: 2, designation: 'Imprimante', status: false},
+                  {id: 3, designation: 'Moniteur', status: false}
+              ]
+          }
+
+        },
+        //Ici est une ouque: fonction qui est appellee automatiquement lors du chargement de la page
+        created(){
+            this.initialize()
+        }
+    
+    });
+    </script>
+  </body>
+</html>
